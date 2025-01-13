@@ -5,22 +5,25 @@ package:
   version: {{ version }}
 
 source:
-  url: https://pypi.io/packages/source/j/js-regex/js-regex-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/j/js-regex/js-regex-{{ version }}.tar.gz
   sha256: de27bbf11b135a9cc7b03fc35f586705e286d6cd4fbbe112eaa577ed1c82a69f
 
 build:
-  number: 0
+  number: 1
   noarch: python
-  script: "{{ PYTHON }} -m pip install . --no-deps -vv"
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
 
 requirements:
   host:
-    - python
+    - python {{ python_min }}
+    - setuptools
     - pip
   run:
-    - python
+    - python >={{ python_min }}
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - js_regex
 
